@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>NightTerranauts</AssemblyName>
+    <Product>Allow joining after train leave checkpoint</Product>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <DebugType>embedded</DebugType>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>NightTerranauts</RootNamespace>
+    <Nullable>enable</Nullable>
+    <Optimize>true</Optimize>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <OutputPath>./bin/Dlls</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.*" />
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.15" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Game assemblies-->
+
+    <Reference Include="Assembly-CSharp" HintPath="$(SUB_DATA_DIR)\Assembly-CSharp.dll" Private="False" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(SUB_DATA_DIR)\Unity.TextMeshPro.dll" Private="False" />
+    <Reference Include="UnityEngine" HintPath="$(SUB_DATA_DIR)\UnityEngine.dll" Private="False" />
+    <Reference Include="UnityEngine.UI" HintPath="$(SUB_DATA_DIR)\UnityEngine.UI.dll" Private="False" />
+    <Reference Include="Photon" HintPath="$(SUB_DATA_DIR)\PhotonUnityNetworking.dll" Private="False" />
+    <Reference Include="PhotonRealtime" HintPath="$(SUB_DATA_DIR)\PhotonRealtime.dll" Private="False" />
+  </ItemGroup>
+</Project>
