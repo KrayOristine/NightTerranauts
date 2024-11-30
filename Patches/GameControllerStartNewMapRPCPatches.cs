@@ -1,5 +1,6 @@
 ﻿
-using NightTerranauts.Patches;
+
+using Photon.Pun;
 using System.Reflection.Emit;
 
 namespace NightTerranauts.Features {
@@ -9,18 +10,15 @@ namespace NightTerranauts.Features {
 
         [HarmonyTranspiler]
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instrs) {
-            var found = false;
-            foreach (var instr in instrs) {
-                if (found) yield return instr;
 
-                if (instr.opcode == OpCodes.Ldc_I4_0) {
-                    found = true;
-                    yield return new CodeInstruction(OpCodes.Ldc_I4_0);
-                    continue;
-                }
-
-                yield return instr;
-            }
+            return new CodeMatcher(instrs).MatchForward(false,
+                   new CodeMatch(OpCodes.Call),
+                   new CodeMatch(OpCodes.Ldc_I4_0),
+                   new CodeMatch(OpCodes.Callvirt)
+                )
+                .Advance(1) // get to LDC I4 0 (load integer32 0)
+                .SetOpcodeAndAdvance(OpCodes.Ldc_I4_1) // set it to LDC I4 0 (load integer32 1)
+                .InstructionEnumeration(); // should work
         }
     }
 }
